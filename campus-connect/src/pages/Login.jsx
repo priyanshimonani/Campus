@@ -24,12 +24,12 @@ const Login = () => {
   }
 
   return (
-    <div className='flex justify-center items-center'>
+    <div>
+    <div className='flex justify-center items-center '>
       <div className='container'>
         <div>
-          <h1 className=''>Login</h1>
-
           <div>
+            <div className='flex items-center'><label className='title1'>Login</label></div>
             <input
               type='text'
               placeholder='Username'
@@ -56,6 +56,7 @@ const Login = () => {
 
         </div>
       </div>
+    </div>
     </div>
   )
 }

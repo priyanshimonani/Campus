@@ -9,7 +9,7 @@ const Events = () => {
   const events = Array(8).fill({
     title: "Hackathon 2026",
     date: "15 March 2026",
-    description: "24 hour coding event",
+    description: "start 24 hour coding event 24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour coding event24 hour justify-justify-endjustify-endjustify-endjustify-endjustify-endjustify-endjustify-endjustify-endjustify-endendjustify-endjustify-endjustify-endjustify-end coding event24 hour coding event24 hour coding event24 hour coding event end",
     venue: "Main Auditorium",
     image: "https://cdn.vectorstock.com/i/1000v/81/75/temporary-rubber-stamp-vector-17998175.jpg"
   })

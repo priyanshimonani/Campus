@@ -12,19 +12,7 @@ function App() {
     return (
       <>
       {/* background */}
-      <div class="background">
-  
-  <span className="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-  <span class="ball"></span>
-</div>
+      <div className="bg"></div>
 
       {/* background */}
 
