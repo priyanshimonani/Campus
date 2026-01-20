@@ -10,26 +10,21 @@ import Manage from './pages/Manage';
 
 function App() {
     return (
-      <>
+      
+      <BrowserRouter>
       {/* background */}
       <div className="bg"></div>
 
-      {/* background */}
-
-
-
       <Navbar/>
-      <BrowserRouter>
-    
+
     <Routes>
       <Route path="/" element={<Events />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<CommitteeDashboard />} />
       <Route path="/manage" element={<Manage />} />
+      <Route path="/manage/:id" element={<Manage />} />
     </Routes>
-    </BrowserRouter>
-      </>
-    
+    </BrowserRouter>    
   )
 }
 

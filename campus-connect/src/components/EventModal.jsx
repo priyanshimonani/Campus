@@ -41,7 +41,7 @@ const EventModal = ({ event, onClose }) => {
         <div className="overflow-y-auto p-6 flex-1">
           <div className='flex justify-center'>
             <img 
-            src={event.image} 
+            src={event.poster} 
             alt={event.title}
             className="rounded-md mb-4 object-cover h-100 w-auto" 
           />
@@ -53,11 +53,7 @@ const EventModal = ({ event, onClose }) => {
             <p className="">📍 {event.venue}</p>
             <p className=" leading-relaxed">
               {event.description}
-              {/* Adding extra text to demonstrate scrollability */}
-              <br /><br />
-              This content will scroll if it becomes too long, while the header 
-              and the registration button stay fixed in place, just like 
-              Bootstrap's scrollable modal.
+              
             </p>
           </div>
 
