@@ -26,7 +26,7 @@ const EventModal = ({ event, onClose }) => {
           <h2 className="line-clamp-1 title1">
             {event.title}
           </h2>
-          <div className='bg-amber-200 right-100'>
+          <div className='right-100'>
             <button 
             onClick={onClose}
             className="text-2xl px-2 title1"
