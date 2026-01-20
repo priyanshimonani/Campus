@@ -26,14 +26,14 @@ const Login = () => {
   return (
     <div>
     <div className='flex justify-center items-center '>
-      <div className='container'>
+      <div className=' w-fit'>
         <div>
           <div>
-            <div className='flex items-center'><label className='title1'>Login</label></div>
+            <div className='flex items-center justify-center'><label className='title1'>LOGIN</label></div>
             <input
               type='text'
               placeholder='Username'
-              className='mw-full border-b'
+              className='container'
               onChange={(e) => setUsername(e.target.value)}
             />
             <br/>
@@ -41,17 +41,20 @@ const Login = () => {
             <input
               type='password'
               placeholder='Password'
-              className='mw-full border-b'
+              className='container'
               onChange={(e) => setPassword(e.target.value)}
             />
             <br/>
 
-            <button
+            <div className='flex items-center justify-center'>
+              <button
               className='border rounded-full px-12 mt-4 admin-btn'
               onClick={handleLogin}
             >
               Login
             </button>
+            </div>
+            
           </div>
 
         </div>

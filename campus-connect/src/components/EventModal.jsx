@@ -19,38 +19,39 @@ const EventModal = ({ event, onClose }) => {
   return (
     // Backdrop - fixed and centered
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      
-      {/* Modal Container: 
-         'max-h-[90vh]' limits the height like Bootstrap.
-         'flex-col' allows us to divide header/body/footer.
-      */}
-      <div className="bg-white rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh]">
+      <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black" >
         
         {/* Header - Stays pinned at the top */}
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-xl font-bold text-gray-800 line-clamp-1">
+          <h2 className="line-clamp-1 title1">
             {event.title}
           </h2>
-          <button 
+          <div className='bg-amber-200 right-100'>
+            <button 
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl px-2"
+            className="text-2xl px-2 title1"
           >
             &times;
           </button>
+          </div>
+          
         </div>
 
         {/* Body - This section scrolls (Equivalent to modal-dialog-scrollable) */}
         <div className="overflow-y-auto p-6 flex-1">
-          <img 
+          <div className='flex justify-center'>
+            <img 
             src={event.image} 
             alt={event.title}
-            className="w-full rounded-md mb-4 object-cover h-48" 
+            className="rounded-md mb-4 object-cover h-100 w-auto" 
           />
+          </div>
+          
           
           <div className="space-y-2 mb-6">
-            <p className="text-blue-600 font-semibold">{event.date}</p>
-            <p className="text-gray-500">📍 {event.venue}</p>
-            <p className="text-gray-700 leading-relaxed">
+            <p className="font-semibold">{event.date}</p>
+            <p className="">📍 {event.venue}</p>
+            <p className=" leading-relaxed">
               {event.description}
               {/* Adding extra text to demonstrate scrollability */}
               <br /><br />
@@ -60,8 +61,8 @@ const EventModal = ({ event, onClose }) => {
             </p>
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-            <h3 className="font-semibold mb-3">Register Now</h3>
+          <div className=" p-4 rounded-lg border bg-black text-white">
+            <h3 className="font-semibold mb-3 text-white">Register Now</h3>
             <input
               type="text"
               placeholder="Your Name"
@@ -80,10 +81,10 @@ const EventModal = ({ event, onClose }) => {
         </div>
 
         {/* Footer - Stays pinned at the bottom */}
-        <div className="p-4 border-t bg-gray-50 rounded-b-lg">
+        <div className="p-4 rounded-b-lg">
           <button
             onClick={handleRegister}
-            className="bg-blue-600 text-white w-full py-3 rounded-md font-bold hover:bg-blue-700 transition-colors"
+            className="bg-gray-900 text-white w-full py-3 px-2 rounded-md font-bold hover:bg-black transition-colors"
           >
             Submit Registration
           </button>

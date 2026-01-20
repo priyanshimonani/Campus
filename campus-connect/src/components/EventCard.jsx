@@ -4,7 +4,7 @@ const EventCard = ({ event, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="group relative h-96 w-full overflow-hidden rounded-xl shadow-lg cursor-pointer"
+      className="group relative h-96 w-full overflow-hidden rounded-xl shadow-lg cursor-pointer hover:shadow-emerald-500"
     >
       <img
         src={event.image}

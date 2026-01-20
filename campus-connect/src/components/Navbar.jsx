@@ -12,23 +12,21 @@ const Navbar = () => {
             items-center justify-between
             gap-3 md:gap-8
             px-6 py-4
-            rounded-2xl
-            bg-white/25 backdrop-blur-xl
-            border border-white/40
+            rounded-full
+           container 
             shadow-lg
             transition-all
-
-            w-[94%]
-            max-w-5xl
+            w-150
+            ml-2 mr-2
           "
         >
           {/* Logo */}
           <h1 className="text-lg font-bold text-gray-900 whitespace-nowrap">Campus Connect</h1>
 
           {/* Links */}
-          <div className="flex gap-6 text-gray-800 font-medium">
-            <a className="hover:text-teal-600 transition" href="/">Home</a>
-            <a className="hover:text-teal-600 transition" href="/about">About</a>
+          <div className="flex gap-6 text-teal-500 font-medium">
+            <a className="hover:text-emerald-500 transition" href="/">Home</a>
+            <a className="hover:text-emerald-500 transition" href="/about">About</a>
           </div>
 
           {/* Admin */}

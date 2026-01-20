@@ -220,6 +220,7 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
 }
 
 .container {
+  font-family: "Dosis", sans-serif;
   display: flex;
   align-items: center; 
   justify-content: center; 
@@ -234,19 +235,28 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms; /* transition-all */
 
-  width: 80%; /* w-[94%] */
   max-width: 64rem; /* max-w-5xl */
 }
 
 /* Tablet/Desktop Styles (md: equivalent) */
 .title1{
-  font-family: "Barlow", sans-serif;
+  font-family: "Bruno Ace", sans-serif;
   font-weight: 500;
-  color: #006D5B;
-  font-weight: 900;
+  color: #10b981;
+  font-weight: 700;
   font-size:5ch;
-  font-style: oblique;
+  
+  text-shadow:
+    /* sharpen glyph edges */
+    0 0 1px rgba(16, 185, 129, 0.9),
+
+    /* controlled neon glow */
+    0 0 6px rgba(16, 185, 129, 0.8),
+    0 0 14px rgba(20, 184, 166, 0.7),
+    0 0 28px rgba(45, 212, 191, 0.6);
+
 }
+
 
 h1{
   color: white;
