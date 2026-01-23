@@ -96,21 +96,22 @@ const Manage = () => {
           value={form.description}
           onChange={e => setForm({ ...form, description: e.target.value })}
         />
-
+        <div className='flex justify-end'>
         <input
           type='date'
-          className='container text-white mb-2'
+          className='container text-white mb-2 mr-4'
           value={form.date}
           onChange={e => setForm({ ...form, date: e.target.value })}
         />
-
+        
         <input
-          placeholder='Add Time (eg. 10:00 AM - 4:00 PM)'
+          placeholder='Add Time'
           type='text'
           className='container text-white mb-2'
           value={form.time}
           onChange={e => setForm({ ...form, time: e.target.value })}
         />
+        </div>
 
         <input
           placeholder='Add Venue here'
@@ -119,10 +120,11 @@ const Manage = () => {
           value={form.venue}
           onChange={e => setForm({ ...form, venue: e.target.value })}
         />
+        
 
         {/* IMAGE UPLOAD — SAME UI, NOW FUNCTIONAL */}
         <div className="flex flex-col items-center justify-center mt-3">
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer container transition-colors p-5">
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer neoncontainer transition-colors p-5">
             <div className="flex flex-col items-center justify-center pt-5 pb-6 title1">
               <span className="text-2xl mb-2 animate-pulse">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">

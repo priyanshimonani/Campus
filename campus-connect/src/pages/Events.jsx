@@ -6,12 +6,19 @@ import API from "../api"
 const Events = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [events, setEvents] = useState([])
+  const [searchedEvents, setSearchedEvents] = useState("")
 
   useEffect(() => {
     API.get("/events")
       .then(res => setEvents(res.data))
       .catch(() => console.error("Failed to load events"))
   }, [])
+
+  const filteredEvents = events.filter(event =>
+  event.title.toLowerCase().includes(searchedEvents.toLowerCase()) ||
+  event.description.toLowerCase().includes(searchedEvents.toLowerCase())
+)
+
 
   return (
     <div className="max-w-8xl mx-auto p-14">
@@ -27,16 +34,17 @@ const Events = () => {
         <input
           type="text"
           placeholder="Search events..."
-          className="border rounded-full mb-4 px-4 py-1 text-emerald-500"
+          className="border rounded-full mb-4 px-4 py-1 text-emerald-500" onChange={(e)=>setSearchedEvents(e.target.value)}
         />
       </div>
 
       <div className="grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        {events.map(event => (
+        {filteredEvents.map(event => (
           <EventCard
             key={event._id}
             event={{
               title: event.title,
+              dateog: event.date,
               date: new Date(event.date).toDateString(),
               description: event.description,
               venue: event.venue,

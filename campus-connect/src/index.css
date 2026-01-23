@@ -238,6 +238,22 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
   max-width: 64rem; /* max-w-5xl */
 }
 
+.neoncontainer{
+  font-family: "Dosis", sans-serif;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 1rem 1.5rem; 
+  border-radius: 1rem;
+  backdrop-filter: blur(2px); /* backdrop-blur-xl */
+  border: 1px solid #10b981; /* border-white/40 */
+  box-shadow: 0 10px 15px -3px #10b981 ; 
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms; /* transition-all */
+  max-width: 64rem;
+}
+
 /* Tablet/Desktop Styles (md: equivalent) */
 .title1{
   font-family: "Bruno Ace", sans-serif;

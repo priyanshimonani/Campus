@@ -4,10 +4,13 @@ import dotenv from "dotenv"
 import jwt from "jsonwebtoken"
 import eventRoutes from "./routes/events.js"
 
+
 import authRoutes from "./routes/auth.js"
 import verifyToken from "./middleware/verifyToken.js"
 import { committees } from "./data/committees.js"
 import mongoose from "mongoose"
+import registrationRoutes from "./routes/registrations.js";
+
 
 dotenv.config()
 
@@ -29,6 +32,8 @@ mongoose
 // Auth routes (login)
 app.use("/api/auth", authRoutes)
 app.use("/api/events", eventRoutes) //events mongo
+app.use("/api/registrations", registrationRoutes);
+
 
 // Protected dashboard route
 app.get("/api/dashboard", verifyToken, (req, res) => {
