@@ -4,7 +4,7 @@ import API from '../api'
 
 const Manage = () => {
   const navigate = useNavigate()
-  const { id } = useParams() // optional event id
+  const { id } = useParams()
 
   const [form, setForm] = useState({
     title: '',
@@ -12,8 +12,12 @@ const Manage = () => {
     date: '',
     venue: '',
     time: '',
-    poster: ''
+    poster: '',
+    tags: []
   })
+
+  const [tagInput, setTagInput] = useState("") // ✅ NEW
+  const [isCompleted, setIsCompleted] = useState(false)
 
   // Load event if editing
   useEffect(() => {
@@ -27,14 +31,18 @@ const Manage = () => {
             date: event.date?.split('T')[0],
             venue: event.venue,
             time: event.time,
-            poster: event.poster || ''
+            poster: event.poster || '',
+            tags: event.tags || []
           })
+
+          setTagInput((event.tags || []).join(', ')) // ✅ NEW
+          setIsCompleted(event.isCompleted || false)
         }
       })
     }
   }, [id])
 
-  // Handle image upload (base64)
+  // Handle image upload
   const handleImageUpload = (file) => {
     if (!file) return
     const reader = new FileReader()
@@ -47,7 +55,7 @@ const Manage = () => {
   const handleSubmit = async () => {
     try {
       if (id) {
-        await API.put(`/events/${id}`, form)
+        await API.put(`/events/${id}`, { ...form, isCompleted })
       } else {
         await API.post('/events', form)
       }
@@ -59,8 +67,9 @@ const Manage = () => {
 
   const markCompleted = async () => {
     if (!id) return
-    await API.put(`/events/${id}`, { isCompleted: true })
-    navigate('/dashboard')
+    const updatedStatus = !isCompleted
+    await API.put(`/events/${id}`, { isCompleted: updatedStatus })
+    setIsCompleted(updatedStatus)
   }
 
   const deleteEvent = async () => {
@@ -96,21 +105,22 @@ const Manage = () => {
           value={form.description}
           onChange={e => setForm({ ...form, description: e.target.value })}
         />
+
         <div className='flex justify-end'>
-        <input
-          type='date'
-          className='container text-white mb-2 mr-4'
-          value={form.date}
-          onChange={e => setForm({ ...form, date: e.target.value })}
-        />
-        
-        <input
-          placeholder='Add Time'
-          type='text'
-          className='container text-white mb-2'
-          value={form.time}
-          onChange={e => setForm({ ...form, time: e.target.value })}
-        />
+          <input
+            type='date'
+            className='container text-white mb-2 mr-4'
+            value={form.date}
+            onChange={e => setForm({ ...form, date: e.target.value })}
+          />
+
+          <input
+            placeholder='Add Time'
+            type='text'
+            className='container text-white mb-2'
+            value={form.time}
+            onChange={e => setForm({ ...form, time: e.target.value })}
+          />
         </div>
 
         <input
@@ -120,22 +130,30 @@ const Manage = () => {
           value={form.venue}
           onChange={e => setForm({ ...form, venue: e.target.value })}
         />
-        
 
-        {/* IMAGE UPLOAD — SAME UI, NOW FUNCTIONAL */}
+        {/* ✅ TAG INPUT */}
+        <input
+          type="text"
+          placeholder="Add tags (comma separated)"
+          className="container text-white mb-2"
+          value={tagInput}
+          onChange={e => {
+            const value = e.target.value
+            setTagInput(value)
+            setForm({
+              ...form,
+              tags: value
+                .split(',')
+                .map(tag => tag.trim())
+                .filter(Boolean)
+            })
+          }}
+        />
+
+        {/* IMAGE UPLOAD */}
         <div className="flex flex-col items-center justify-center mt-3">
           <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer neoncontainer transition-colors p-5">
             <div className="flex flex-col items-center justify-center pt-5 pb-6 title1">
-              <span className="text-2xl mb-2 animate-pulse">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-                  <g fill="none" stroke="#10b981" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-                    <path d="M8 19h-1c-2.5 0 -4 -2 -4 -4c0 -2 1.5 -4 4 -4c1 0 1.5 0.5 1.5 0.5M16 19h1c2.5 0 4 -2 4 -4c0 -2 -1.5 -4 -4 -4c-1 0 -1.5 0.5 -1.5 0.5" />
-                    <path d="M7 11v-1c0 -2.5 2 -5 5 -5M17 11v-1c0 -2.5 -2 -5 -5 -5" />
-                    <path d="M12 20v-6" />
-                    <path d="M12 13l2 2M12 13l-2 2" />
-                  </g>
-                </svg>
-              </span>
               <p className="text-sm font-semibold">Click to upload image</p>
               <p className="text-xs">PNG, JPG or GIF</p>
             </div>
@@ -149,14 +167,12 @@ const Manage = () => {
           </label>
         </div>
 
-        <p>add selection of tags here</p>
-
         <div className='grid grid-cols-2 gap-2 w-full mt-10'>
           <button
             className='bg-green-300 text-green-900 rounded-md py-3 hover:bg-green-400 transition'
             onClick={markCompleted}
           >
-            Mark Completed
+            {isCompleted ? 'Unmark Completed' : 'Mark Completed'}
           </button>
 
           <button

@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import API from '../api';
 import emailjs from "emailjs-com";
 
 const EventModal = ({ event, onClose }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [registered, setRegistered]=useState(false);
+  const [registered, setRegistered] = useState(false);
 
   if (!event) return null;
+
+  // ✅ CHECK LOCAL STORAGE ON LOAD (PERSISTENCE)
+  useEffect(() => {
+    const registeredEvents =
+      JSON.parse(localStorage.getItem("registeredEvents")) || [];
+
+    if (registeredEvents.includes(event._id)) {
+      setRegistered(true);
+    }
+  }, [event]);
 
   const handleRegister = async () => {
     if (!name || !email) {
@@ -34,8 +44,18 @@ const EventModal = ({ event, onClose }) => {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      // 3️⃣ Update UI
+      // 3️⃣ Save to localStorage (PERSIST)
+      const registeredEvents =
+        JSON.parse(localStorage.getItem("registeredEvents")) || [];
+
+      localStorage.setItem(
+        "registeredEvents",
+        JSON.stringify([...new Set([...registeredEvents, event._id])])
+      );
+
+      // 4️⃣ Update UI
       setRegistered(true);
+
     } catch (err) {
       alert("Registration failed");
       console.error(err);
@@ -43,27 +63,18 @@ const EventModal = ({ event, onClose }) => {
   };
 
   return (
-    // Backdrop - fixed and centered
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black" >
+      <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black">
 
-        {/* Header - Stays pinned at the top */}
+        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="line-clamp-1 title1">
-            {event.title}
-          </h2>
-          <div className='right-100'>
-            <button
-              onClick={onClose}
-              className="text-2xl px-2 title1"
-            >
-              &times;
-            </button>
-          </div>
-
+          <h2 className="line-clamp-1 title1">{event.title}</h2>
+          <button onClick={onClose} className="text-2xl px-2 title1">
+            &times;
+          </button>
         </div>
 
-        {/* Body - This section scrolls (Equivalent to modal-dialog-scrollable) */}
+        {/* Body */}
         <div className="overflow-y-auto p-6 flex-1">
           <div className='flex justify-center'>
             <img
@@ -73,18 +84,16 @@ const EventModal = ({ event, onClose }) => {
             />
           </div>
 
-
           <div className="space-y-2 mb-6">
-            <p className="font-semibold">{new Date(event.date).toDateString()}</p>
-            <p className="">📍 {event.venue}</p>
-            <p className=" leading-relaxed">
-              {event.description}
-
+            <p className="font-semibold">
+              {new Date(event.date).toDateString()}
             </p>
+            <p>📍 {event.venue}</p>
+            <p className="leading-relaxed">{event.description}</p>
           </div>
 
-          <div className=" p-4 rounded-lg border bg-black text-white">
-            <h3 className="font-semibold mb-3 text-white">Register Now</h3>
+          <div className="p-4 rounded-lg border bg-black text-white">
+            <h3 className="font-semibold mb-3">Register Now</h3>
 
             {registered ? (
               <p className="text-green-400 font-semibold text-center">
@@ -95,14 +104,14 @@ const EventModal = ({ event, onClose }) => {
                 <input
                   type="text"
                   placeholder="Your Name"
-                  className="border w-full mb-3 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="border w-full mb-3 px-3 py-2 rounded"
                   value={name}
                   onChange={e => setName(e.target.value)}
                 />
                 <input
                   type="email"
                   placeholder="Your Email"
-                  className="border w-full mb-1 px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="border w-full mb-1 px-3 py-2 rounded"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 />
@@ -111,7 +120,7 @@ const EventModal = ({ event, onClose }) => {
           </div>
         </div>
 
-        {/* Footer - Stays pinned at the bottom */}
+        {/* Footer */}
         <div className="p-4 rounded-b-lg">
           <button
             onClick={handleRegister}
