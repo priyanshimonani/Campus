@@ -293,8 +293,8 @@ h1{
         #14b8a6,
         #10b981
     );
-    left: -80px;
-    top: -80px;
+    left: -60px;
+    top: -40px;
 }
 .shapelogin:last-child{
     background: linear-gradient(
@@ -364,4 +364,13 @@ form h3{
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+}
+
+option{
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.356); /* bg-white/25 */
+  backdrop-filter: blur(2px); /* backdrop-blur-xl */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* border-white/40 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
 }

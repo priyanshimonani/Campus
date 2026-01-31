@@ -8,6 +8,10 @@ const Events = () => {
   const [events, setEvents] = useState([])
   const [searchedEvents, setSearchedEvents] = useState("")
   const [selectedTags, setSelectedTags] = useState([]) 
+  const [committeeFilter, setCommitteeFilter]=useState("")
+  const [fromDate, setFromDate]=useState("")
+  const [toDate, setToDate]=useState("")
+  const [statusFilter, setStatusFilter]=useState("all")
 
   useEffect(() => {
     API.get("/events")
@@ -20,18 +24,51 @@ const Events = () => {
     ...new Set(events.flatMap(event => event.tags || []))
   ]
 
-  
+  const committees = [
+  ...new Set(events.map(event => event.committeeId))
+] 
   const filteredEvents = events.filter(event => {
-    const searchMatch =
-      event.title.toLowerCase().includes(searchedEvents.toLowerCase()) ||
-      event.description.toLowerCase().includes(searchedEvents.toLowerCase())
+  const today = new Date()
+today.setHours(0, 0, 0, 0) // normalize to start of today
 
-    const tagMatch =
-      selectedTags.length === 0 ||
-      event.tags?.some(tag => selectedTags.includes(tag))
+const eventDate = new Date(event.date)
+eventDate.setHours(0, 0, 0, 0)
 
-    return searchMatch && tagMatch
-  })
+  // Search
+  const searchMatch =
+    event.title.toLowerCase().includes(searchedEvents.toLowerCase()) ||
+    event.description.toLowerCase().includes(searchedEvents.toLowerCase())
+
+  // Tags (OR logic)
+  const tagMatch =
+    selectedTags.length === 0 ||
+    event.tags?.some(tag => selectedTags.includes(tag))
+
+  // Committee
+  const committeeMatch =
+    !committeeFilter || event.committeeId === committeeFilter
+
+  // Time (upcoming / past)
+  const timeMatch =
+  statusFilter === "all" ||
+  (statusFilter === "upcoming" && eventDate >= today) ||
+  (statusFilter === "past" && eventDate < today)
+
+
+  // Date range
+  const fromMatch = !fromDate || eventDate >= new Date(fromDate)
+  const toMatch = !toDate || eventDate <= new Date(toDate)
+
+  return (
+    searchMatch &&
+    tagMatch &&
+    committeeMatch &&
+    timeMatch &&
+    fromMatch &&
+    toMatch
+  )
+})
+
 
   
   const toggleTag = (tag) => {
@@ -62,8 +99,50 @@ const Events = () => {
           onChange={(e) => setSearchedEvents(e.target.value)}
         />
       </div>
-
       
+      <div className="flex flex-wrap justify-center gap-4 mb-6">
+
+  {/* Committee Filter */}
+  <select
+    className="border rounded-full px-4 py-1 text-emerald-600"
+    value={committeeFilter}
+    onChange={e => setCommitteeFilter(e.target.value)}
+  >
+    <option value="" >All Committees</option>
+    {committees.map(c => (
+      <option key={c} value={c}>{c}</option>
+    ))}
+  </select>
+
+  {/* Time Filter */}
+  <select
+    className="border rounded-full px-4 py-1 text-emerald-600"
+    value={statusFilter}
+    onChange={e => setStatusFilter(e.target.value)}
+  >
+    <option value="all">All Events</option>
+    <option value="upcoming">Upcoming</option>
+    <option value="past">Past</option>
+  </select>
+
+  {/* Date Range */}
+  <input
+    type="date"
+    className="border rounded-full px-3 py-1 text-emerald-600"
+    value={fromDate}
+    onChange={e => setFromDate(e.target.value)}
+  />
+
+  <input
+    type="date"
+    className="border rounded-full px-3 py-1 text-emerald-600"
+    value={toDate}
+    onChange={e => setToDate(e.target.value)}
+  />
+
+</div>
+
+
       {allTags.length > 0 && (
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {allTags.map(tag => (
