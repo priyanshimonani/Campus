@@ -7,7 +7,7 @@ const Events = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [events, setEvents] = useState([])
   const [searchedEvents, setSearchedEvents] = useState("")
-  const [selectedTags, setSelectedTags] = useState([]) // ✅ NEW
+  const [selectedTags, setSelectedTags] = useState([]) 
 
   useEffect(() => {
     API.get("/events")
@@ -15,12 +15,12 @@ const Events = () => {
       .catch(() => console.error("Failed to load events"))
   }, [])
 
-  // ✅ GET UNIQUE TAGS FROM ALL EVENTS
+ 
   const allTags = [
     ...new Set(events.flatMap(event => event.tags || []))
   ]
 
-  // ✅ FILTER EVENTS (SEARCH + OR TAG LOGIC)
+  
   const filteredEvents = events.filter(event => {
     const searchMatch =
       event.title.toLowerCase().includes(searchedEvents.toLowerCase()) ||
@@ -33,7 +33,7 @@ const Events = () => {
     return searchMatch && tagMatch
   })
 
-  // ✅ TOGGLE TAG SELECTION
+  
   const toggleTag = (tag) => {
     setSelectedTags(prev =>
       prev.includes(tag)
@@ -45,10 +45,11 @@ const Events = () => {
   return (
     <div className="max-w-8xl mx-auto p-14">
       <div className='flex justify-center'>
-        <h1 className="title1 mb-4"> EVENTS</h1>
+        <h1 className="title1 mb-4"> All campus events. One Page</h1><br/>
+        
       </div>
 
-      {/* SEARCH */}
+      
       <div className='flex justify-center mb-4'>
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
           <path fill="#10b981" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"/>
@@ -62,7 +63,7 @@ const Events = () => {
         />
       </div>
 
-      {/* ✅ TAG CAPSULES */}
+      
       {allTags.length > 0 && (
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {allTags.map(tag => (
@@ -72,7 +73,7 @@ const Events = () => {
               className={`px-4 py-1 rounded-full text-sm font-semibold transition
                 ${selectedTags.includes(tag)
                   ? "bg-emerald-500 text-white shadow"
-                  : "bg-transparent text-emerald-500 border-emerald-500 border-1 hover:scale-105 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)]"}
+                  : "bg-transparent text-emerald-500 border-emerald-500 border hover:scale-105 hover:shadow-[0_0_15px_rgba(16,185,129,0.8)]"}
               `}
             >
               {tag}
@@ -81,7 +82,7 @@ const Events = () => {
         </div>
       )}
 
-      {/* EVENTS GRID */}
+      
       <div className="grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {filteredEvents.map(event => (
           <EventCard

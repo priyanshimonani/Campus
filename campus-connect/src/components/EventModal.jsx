@@ -9,7 +9,6 @@ const EventModal = ({ event, onClose }) => {
 
   if (!event) return null;
 
-  // ✅ CHECK LOCAL STORAGE ON LOAD (PERSISTENCE)
   useEffect(() => {
     const registeredEvents =
       JSON.parse(localStorage.getItem("registeredEvents")) || [];
@@ -26,13 +25,13 @@ const EventModal = ({ event, onClose }) => {
     }
 
     try {
-      // 1️⃣ Save registration in backend
+
       await API.post(`/registrations/${event._id}`, {
         name,
         email
       });
 
-      // 2️⃣ Send email via EmailJS
+
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
@@ -44,7 +43,6 @@ const EventModal = ({ event, onClose }) => {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
-      // 3️⃣ Save to localStorage (PERSIST)
       const registeredEvents =
         JSON.parse(localStorage.getItem("registeredEvents")) || [];
 
@@ -53,7 +51,7 @@ const EventModal = ({ event, onClose }) => {
         JSON.stringify([...new Set([...registeredEvents, event._id])])
       );
 
-      // 4️⃣ Update UI
+     
       setRegistered(true);
 
     } catch (err) {
@@ -92,7 +90,7 @@ const EventModal = ({ event, onClose }) => {
             <p className="leading-relaxed">{event.description}</p>
           </div>
 
-          <div className="p-4 rounded-lg border bg-black text-white">
+          <div className="p-4 rounded-lg border">
             <h3 className="font-semibold mb-3">Register Now</h3>
 
             {registered ? (

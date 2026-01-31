@@ -88,7 +88,7 @@ const Manage = () => {
       </button>
 
       <div className='flex flex-col items-center w-full max-w-xl p-1 rounded-lg mb-4'>
-        <h2 className="title1 mb-4 mt-0">Add New Event</h2>
+        <h2 className="title1 mb-4 mt-0">Add/Edit Event</h2>
 
         <input
           placeholder='Add Title'

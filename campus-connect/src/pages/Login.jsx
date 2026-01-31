@@ -25,41 +25,38 @@ const Login = () => {
 
   return (
     <div>
-    <div className='flex justify-center items-center '>
-      <div className=' w-fit'>
-        <div>
-          <div>
-            <div className='flex items-center justify-center'><label className='title1'>LOGIN</label></div>
-            <input
-              type='text'
-              placeholder='Username'
-              className='container'
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <br/>
-
-            <input
-              type='password'
-              placeholder='Password'
-              className='container'
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br/>
-
-            <div className='flex items-center justify-center'>
-              <button
-              className='border rounded-full px-12 mt-4 admin-btn'
-              onClick={handleLogin}
-            >
-              Login
-            </button>
-            </div>
-            
-          </div>
-
+      <div id='new login'>
+        <div className="backgroundlogin">
+          <div className="shapelogin"></div>
+          <div className="shapelogin"></div>
         </div>
+        <form id='loginform'>
+          <h3 className='title1'>Login</h3>
+
+          <label>Username</label>
+          <input
+            type='text'
+            placeholder='Username'
+            className='container'
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <label>Password</label>
+          <input
+            type='password'
+            placeholder='Password'
+            className='container'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button type='button'
+            className='admin-btn '
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+        </form>
       </div>
-    </div>
     </div>
   )
 }

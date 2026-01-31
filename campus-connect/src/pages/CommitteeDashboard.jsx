@@ -23,13 +23,11 @@ const CommitteeDashboard = () => {
   if (!committee) return null
   return (
     <div>
-      <div className='flex justify-center'>
+      <div className='flex justify-center mb-4'>
         <h1 className='title1'>{committee.name}</h1>
       </div>
-
-      <p>Logo here</p>
-
-      <p className='title1 text-sm ml-5'>About Us</p><br />
+      <div className='flex justify-center'>
+      <p className='title1 text-sm ml-5'>About Us</p><br /></div>
 
       <div className='ml-50 mr-50'>
         <p className='neoncontainer min-w-full text-emerald-500'>{committee.description}</p><br />
@@ -37,10 +35,13 @@ const CommitteeDashboard = () => {
 
       {/* 🔹 MY EVENTS */}
       <div className='ml-4 mr-4 mb-4'>
-        <p className='title1 text-xs'>My Events</p>
-        {events.length === 0 && <p>No events created yet</p>}
+
+        <div className='flex justify-center'>
+      <p className='title1 text-sm ml-5'>My Events</p><br />
+
+        {events.length === 0 && <p>No events created yet</p>}</div>
         {/* onClick={() => navigate(`/manage/${event._id}`)} */}
-        <div className='grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5'>
+        <div className='grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5 '>
           {events.map(event => (
             
             <div
