@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import EventCard from "../components/EventCard"
 import EventModal from '../components/EventModal'
 import API from "../api"
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 const Events = () => {
@@ -16,6 +17,15 @@ const Events = () => {
 
   //  NEW: sort state
   const [sortOrder, setSortOrder] = useState("newest")
+
+  //newwwwwwww
+  const heroCards = useMemo(() => Array.from({ length: 20 }).map((_, i) => ({
+    id: i,
+    delay: Math.random() * 2,
+    x: Math.random() * 100 - 50 + '%',
+    y: Math.random() * 100 - 50 + '%',
+  })), [])
+  //neewwwwwww
 
   useEffect(() => {
     API.get("/events")
@@ -87,9 +97,60 @@ const Events = () => {
   }
 
   return (
-    <div className="max-w-8xl mx-auto p-14 pt-40">
+    <div className="max-w-8xl mx-auto  pt-20">
+      <div 
+        className="containerhero" 
+        style={{ 
+          position: 'relative', 
+          height: '60vh', // Takes up 60% of viewport height
+          width: '100%', 
+          overflow: 'hidden',
+          zIndex: 1
+        }}
+      >
+        <div className="stars" />
+        
+        {/* Floating Cards */}
+        {heroCards.map((card) => (
+          <motion.div
+            key={card.id}
+            className="card-mock"
+            initial={{ scale: 0, opacity: 0, z: -500 }}
+            animate={{ 
+              scale: [0, 1.5, 4], 
+              opacity: [0, 1, 0],
+              z: 0 
+            }}
+            transition={{ 
+              duration: 4, // Slower for hero section
+              repeat: Infinity, 
+              delay: card.delay,
+              ease: "easeIn" 
+            }}
+            style={{ left: card.x, top: card.y }}
+          />
+        ))}
+
+        {/* Logo Text */}
+        <motion.div 
+          className="logo-wrapper"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          style={{ zIndex: 10 }} // Ensure text is on top
+        >
+          <h1 className="neon-text">Campus<br/><span>Connect</span></h1>
+          <motion.div 
+            className="circle-glow"
+            animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </motion.div>
+        
+        <div className="lens-flare" />
+      </div>
       <div className='flex justify-center split-text-container'>
-        <h1 className="title1 mb-4 text-part left mr-2"> All Campus Events </h1>
+        <h1 className="title1 mb-4 text-part left mr-2"> All Events </h1>
         <h1 className="title1 mb-4 text-part right text-white!"> One Page</h1>
       </div>
 
@@ -178,7 +239,7 @@ const Events = () => {
       )}
 
       {/* EVENTS */}
-      <div className="grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5 p-14">
         {sortedEvents.map(event => (
           <EventCard
             key={event._id}

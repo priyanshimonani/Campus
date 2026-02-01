@@ -415,3 +415,64 @@ option{
         transform: translateX(0);
     }
 }
+
+
+.containerhero {
+  background: transparent;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+/* Floating Poster Mockup */
+.card-mock {
+  position: absolute;
+  width: 80px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 180, 0.2);
+}
+
+/* Neon Text Effect */
+.neon-text {
+  color: #fff;
+  font-family: "Bruno Ace", sans-serif;
+  
+  font-size: 5rem;
+  line-height: 0.8;
+  text-align: center;
+  filter: drop-shadow(0 0 10px #00ffb4) drop-shadow(0 0 30px #00ffb4);
+  letter-spacing: -2px;
+}
+
+.neon-text span {
+  
+  font-size: 6rem;
+}
+
+.tagline {
+  color: #00ffb4;
+  letter-spacing: 5px;
+  margin-top: 20px;
+  font-weight: bold;
+  text-shadow: 0 0 5px #00ffb4;
+}
+
+/* The Glowing Circle in the middle */
+.circle-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border: 4px solid #00ffb4;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(2px) drop-shadow(0 0 15px #00ffb4);
+}
