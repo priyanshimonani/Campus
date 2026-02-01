@@ -307,7 +307,7 @@ h1{
 }
 
 form{
-    height: 520px;
+    height: 550px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
     position: absolute;
@@ -358,7 +358,7 @@ form h3{
     margin-top: 50px;
     width: 100%;
     background-color: #ffffff;
-    color: #080710;
+    color: #ffffff;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;

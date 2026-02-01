@@ -45,21 +45,24 @@ const CommitteeDashboard = () => {
 
   {/* Header */}
   <div className="px-6 py-5 flex justify-between items-center">
-    <p className="title1 text-emerald-400 tracking-wide">
+    <div className='flex justify-center'>
+      <p className="title1 text-emerald-400 tracking-wide">
       About the Committee
     </p>
+    </div>
+    
 
     <button
   className={`
-    h-9 w-9
+    h-10 w-10
     flex items-center justify-center
-    rounded-full
-    border border-emerald-400
+    cursor-pointer
+    text-4xl
     text-emerald-400
     transition-all duration-500
-    hover:shadow-[0_0_15px_rgba(16,185,129,0.9)]
+    
     ${showAbout
-      ? "rotate-45 shadow-[0_0_25px_rgba(16,185,129,1)]"
+      ? "rotate-45"
       : ""}
   `}
 >
@@ -67,8 +70,6 @@ const CommitteeDashboard = () => {
 </button>
 
   </div>
-
-  {/* Expandable Content */}
   <div
     className={`
       overflow-hidden
@@ -125,7 +126,7 @@ const CommitteeDashboard = () => {
 
       <div className='flex justify-center'>
         <button
-          className='admin-btn animate-bounce absolute bottom-0.5'
+          className='admin-btn animate-bounce fixed bottom-0.5'
           onClick={() => navigate('/manage')}
         >
           Add New Event

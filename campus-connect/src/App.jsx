@@ -27,7 +27,7 @@ function Layout() {
       </Routes>
 
       {/* Hide Navbar on student login */}
-      {(location.pathname !== "/slogin" || location.pathname !== "/signup") && <Navbar />}
+      {(location.pathname !== "/slogin" && location.pathname !== "/signup" ) && <Navbar />}
     </>
   )
 }

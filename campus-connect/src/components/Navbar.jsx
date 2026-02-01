@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const Navbar = () => {
   const navigate = useNavigate()
   const [studentLoggedIn, setStudentLoggedIn] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const token = localStorage.getItem("studentToken")
     setStudentLoggedIn(!!token)
-  }, [])
+  }, [location.pathname])
 
   const handleStudentLogout = () => {
     localStorage.removeItem("studentToken")
