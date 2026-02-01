@@ -11,6 +11,8 @@ import { committees } from "./data/committees.js"
 import mongoose from "mongoose"
 import registrationRoutes from "./routes/registrations.js";
 
+import studentAuthRoutes from "./routes/studentAuth.js"
+
 
 dotenv.config()
 
@@ -33,13 +35,22 @@ mongoose
 app.use("/api/auth", authRoutes)
 app.use("/api/events", eventRoutes) //events mongo
 app.use("/api/registrations", registrationRoutes);
+app.use("/api/students", studentAuthRoutes)
 
 
 // Protected dashboard route
 app.get("/api/dashboard", verifyToken, (req, res) => {
-  const committeeId = req.committee.committeeId
 
-  const committee = committees.find(c => c.id === committeeId)
+  // 🔐 ensure only committees access this
+  if (req.user.role !== "committee") {
+    return res.status(403).json({ message: "Access denied" })
+  }
+
+  const committeeId = req.user.id
+
+  const committee = committees.find(
+    c => String(c.id) === String(committeeId)
+  )
 
   if (!committee) {
     return res.status(404).json({ message: "Committee not found" })
@@ -53,6 +64,7 @@ app.get("/api/dashboard", verifyToken, (req, res) => {
     }
   })
 })
+
 
 /* ---------- SERVER ---------- */
 const PORT = process.env.PORT || 5000

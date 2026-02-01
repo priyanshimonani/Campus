@@ -26,7 +26,7 @@ const CommitteeDashboard = () => {
   return (
     <div>
       <div className='flex justify-center mb-4'>
-        <h1 className='title1'>{committee.name}</h1>
+        <h1 className='title1 mt-50'>{committee.name}</h1>
       </div>
             <div
   onClick={() => setShowAbout(!showAbout)}
@@ -73,7 +73,7 @@ const CommitteeDashboard = () => {
     className={`
       overflow-hidden
       transition-all duration-700 ease-in-out
-      ${showAbout ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}
+      ${showAbout ? "max-h-125 opacity-100" : "max-h-0 opacity-0"}
     `}
   >
     <div className="px-6 pb-6 text-emerald-300 leading-relaxed">

@@ -1,27 +1,49 @@
-import express from "express";
-import Registration from "../models/Registration.js";
+import express from "express"
+import Registration from "../models/Registration.js"
+import verifyToken from "../middleware/verifyToken.js"
 
-const router = express.Router();
+const router = express.Router()
 
-// Student registers for an event
-router.post("/:eventId", async (req, res) => {
+// 🔒 STUDENT — REGISTER FOR EVENT
+router.post("/:eventId", verifyToken, async (req, res) => {
   try {
-    const { name, email } = req.body;
-
-    if (!name || !email) {
-      return res.status(400).json({ message: "All fields required" });
+    // only students can register
+    if (req.user.role !== "student") {
+      return res.status(403).json({ message: "Only students can register" })
     }
 
     const registration = await Registration.create({
-      eventId: req.params.eventId,
-      name,
-      email
-    });
+      studentId: req.user.id,
+      eventId: req.params.eventId
+    })
 
-    res.status(201).json(registration);
+    res.status(201).json(registration)
   } catch (err) {
-    res.status(400).json({ message: "Registration failed" });
-  }
-});
+    // duplicate registration
+    if (err.code === 11000) {
+      return res.status(400).json({ message: "Already registered" })
+    }
 
-export default router;
+    res.status(500).json({ message: "Registration failed" })
+  }
+})
+
+// 🔒 STUDENT — CHECK IF ALREADY REGISTERED
+router.get("/:eventId", verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== "student") {
+      return res.json({ registered: false })
+    }
+
+    const exists = await Registration.findOne({
+      studentId: req.user.id,
+      eventId: req.params.eventId
+    })
+
+    res.json({ registered: !!exists })
+  } catch {
+    res.json({ registered: false })
+  }
+})
+
+export default router

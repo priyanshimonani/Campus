@@ -2,31 +2,31 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import API from '../api'
 
-const StudentLogin = () => {
+const StudentSignup = () => {
   const navigate = useNavigate()
 
-  // 🔹 state added
+  // 🔹 state
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = async () => {
-    if (!email || !password) {
+  const handleSignup = async () => {
+    if (!name || !email || !password) {
       alert("All fields required")
       return
     }
 
     try {
-      const res = await API.post('/students/login', {
-        email,
-        password
+      await API.post('/students/signup', {
+        name: name,
+        email: email,
+        password: password
       })
 
-      // 🔐 store student token
-      localStorage.setItem("studentToken", res.data.token)
-
-      navigate('/') // go to events page
+      alert("Signup successful. Please login.")
+      navigate('/slogin')
     } catch (err) {
-      alert("Login failed")
+      alert("Signup failed")
       console.error(err)
     }
   }
@@ -45,17 +45,29 @@ const StudentLogin = () => {
         </div>
 
         <form id='loginform'>
-          <h3 className='title1'>Login</h3>
+          <h3 className='title1'>Sign Up</h3>
 
-          <label>Email</label>
+          {/* 🔹 NAME */}
+          <label>Username</label>
           <input
             type='text'
             placeholder='Username'
+            className='container'
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+
+          {/* 🔹 USERNAME */}
+          <label>Email</label>
+          <input
+            type='text'
+            placeholder='Email'
             className='container'
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
 
+          {/* 🔹 PASSWORD */}
           <label>Password</label>
           <input
             type='password'
@@ -68,18 +80,14 @@ const StudentLogin = () => {
           <button
             type='button'
             className='admin-btn'
-            onClick={handleLogin}
+            onClick={handleSignup}
           >
-            Login
+            Sign Up
           </button>
-
-          <label>
-            Dont have an account, click <a href='/signup'>here</a>
-          </label>
         </form>
       </div>
     </div>
   )
 }
 
-export default StudentLogin
+export default StudentSignup

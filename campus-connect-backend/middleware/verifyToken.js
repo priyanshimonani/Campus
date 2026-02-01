@@ -18,7 +18,22 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    req.committee = decoded
+
+    // ✅ Generic user object
+    req.user = {
+      id: decoded.id,
+      role: decoded.role
+    }
+
+    // ✅ Backward compatibility
+    if (decoded.role === "committee") {
+      req.committee = decoded
+    }
+
+    if (decoded.role === "student") {
+      req.student = decoded
+    }
+
     next()
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" })

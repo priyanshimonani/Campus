@@ -81,9 +81,10 @@ eventDate.setHours(0, 0, 0, 0)
 
   return (
     <div className="max-w-8xl mx-auto p-14 pt-40">
+      {}
       <div className='flex justify-center split-text-container'>
         <h1 className="title1 mb-4 text-part left mr-2"> All Campus Events </h1>
-        <h1 className="title1 mb-4 text-part right !text-white">  One Page</h1><br/>
+        <h1 className="title1 mb-4 text-part right text-white!">  One Page</h1><br/>
       </div>
       
 

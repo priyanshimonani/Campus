@@ -5,11 +5,18 @@ const API = axios.create({
 })
 
 API.interceptors.request.use(req => {
-  const token = localStorage.getItem("token")
+  const studentToken = localStorage.getItem("studentToken")
+  const committeeToken = localStorage.getItem("token")
+
+  // Prefer student token if available
+  const token = studentToken || committeeToken
+
   if (token) {
     req.headers.Authorization = `Bearer ${token}`
   }
+
   return req
 })
+
 
 export default API

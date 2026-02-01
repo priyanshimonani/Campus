@@ -17,7 +17,8 @@ router.post("/login", (req, res) => {
 
   const token = jwt.sign(
     {
-      committeeId: committee.id,
+      id: committee.id,          // ✅ unified ID
+      role: "committee",         // ✅ role-based auth
       name: committee.name
     },
     process.env.JWT_SECRET,

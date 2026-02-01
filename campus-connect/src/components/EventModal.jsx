@@ -1,67 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import API from '../api';
-import emailjs from "emailjs-com";
+import React, { useState, useEffect } from 'react'
+import API from '../api'
+import emailjs from "emailjs-com"
 
 const EventModal = ({ event, onClose }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [registered, setRegistered] = useState(false);
+  const [registered, setRegistered] = useState(false)
 
-  if (!event) return null;
+  if (!event) return null
 
+  /* 🔁 CHECK REGISTRATION ON MODAL OPEN */
   useEffect(() => {
-    const registeredEvents =
-      JSON.parse(localStorage.getItem("registeredEvents")) || [];
+    const checkRegistration = async () => {
+      const token = localStorage.getItem("studentToken")
+      if (!token) return
 
-    if (registeredEvents.includes(event._id)) {
-      setRegistered(true);
+      try {
+        const res = await API.get(`/registrations/${event._id}`)
+        if (res.data.registered) {
+          setRegistered(true)
+        }
+      } catch {
+        // ignore
+      }
     }
-  }, [event]);
 
+    checkRegistration()
+  }, [event._id])
+
+  /* 📝 REGISTER */
   const handleRegister = async () => {
-    if (!name || !email) {
-      alert("Please fill all fields");
-      return;
+    const token = localStorage.getItem("studentToken")
+    if (!token) {
+      alert("Please login as student to register")
+      return
     }
 
     try {
+      // 1️⃣ Save registration
+      await API.post(`/registrations/${event._id}`)
 
-      await API.post(`/registrations/${event._id}`, {
-        name,
-        email
-      });
-
-
+      // 2️⃣ Send email ONCE
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          event: event.title,
-          name,
-          email
+          event: event.title, name: student.name, email:student.email
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+      )
 
-      const registeredEvents =
-        JSON.parse(localStorage.getItem("registeredEvents")) || [];
-
-      localStorage.setItem(
-        "registeredEvents",
-        JSON.stringify([...new Set([...registeredEvents, event._id])])
-      );
-
-     
-      setRegistered(true);
-
+      setRegistered(true)
     } catch (err) {
-      alert("Registration failed");
-      console.error(err);
+      if (err.response?.status === 400) {
+        setRegistered(true) // already registered
+      } else {
+        alert("Registration failed")
+      }
+      console.error(err)
     }
-  };
+  }
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 ">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black">
 
         {/* Header */}
@@ -74,7 +73,7 @@ const EventModal = ({ event, onClose }) => {
 
         {/* Body */}
         <div className="overflow-y-auto p-6 flex-1">
-          <div className='flex justify-center'>
+          <div className="flex justify-center">
             <img
               src={event.poster}
               alt={event.title}
@@ -93,27 +92,10 @@ const EventModal = ({ event, onClose }) => {
           <div className="p-4 rounded-lg border">
             <h3 className="font-semibold mb-3">Register Now</h3>
 
-            {registered ? (
+            {registered && (
               <p className="text-green-400 font-semibold text-center">
                 ✅ Registered
               </p>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="border w-full mb-3 px-3 py-2 rounded"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
-                />
-                <input
-                  type="email"
-                  placeholder="Your Email"
-                  className="border w-full mb-1 px-3 py-2 rounded"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </>
             )}
           </div>
         </div>
@@ -133,7 +115,7 @@ const EventModal = ({ event, onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EventModal;
+export default EventModal

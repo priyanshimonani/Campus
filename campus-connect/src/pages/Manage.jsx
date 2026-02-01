@@ -79,7 +79,7 @@ const Manage = () => {
   }
 
   return (
-    <div className='flex justify-center px-10 min-h-screen'>
+    <div className='flex justify-center px-10 min-h-screen '>
       <button
         className='container w-1 absolute top-6 left-3 rounded-full text-2xl hover:shadow-emerald-500'
         onClick={() => navigate('/dashboard')}
@@ -88,7 +88,7 @@ const Manage = () => {
       </button>
 
       <div className='flex flex-col items-center w-full max-w-xl p-1 rounded-lg mb-4'>
-        <h2 className="title1 mb-4 mt-0">Add/Edit Event</h2>
+        <h2 className="title1 mb-4 mt- mt-50">Add/Edit Event</h2>
 
         <input
           placeholder='Add Title'

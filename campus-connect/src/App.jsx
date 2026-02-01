@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import CommitteeDashboard from './pages/CommitteeDashboard'
 import Manage from './pages/Manage'
 import StudentLogin from './pages/StudentLogin'
+import StudentSignup from './pages/StudentSignup'
 
 function Layout() {
   const location = useLocation()
@@ -17,7 +18,8 @@ function Layout() {
 
       <Routes>
         <Route path="/slogin" element={<StudentLogin />} />
-        <Route path="/events" element={<Events />} />
+        <Route path="/signup" element={<StudentSignup />} />
+        <Route path="/" element={<Events />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<CommitteeDashboard />} />
         <Route path="/manage" element={<Manage />} />
@@ -25,7 +27,7 @@ function Layout() {
       </Routes>
 
       {/* Hide Navbar on student login */}
-      {location.pathname !== "/slogin" && <Navbar />}
+      {(location.pathname !== "/slogin" || location.pathname !== "/signup") && <Navbar />}
     </>
   )
 }
