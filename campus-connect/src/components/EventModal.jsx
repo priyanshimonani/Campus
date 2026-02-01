@@ -61,7 +61,7 @@ const EventModal = ({ event, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 ">
       <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black">
 
         {/* Header */}
