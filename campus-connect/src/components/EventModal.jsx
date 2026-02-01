@@ -26,6 +26,22 @@ const EventModal = ({ event, onClose }) => {
     checkRegistration()
   }, [event._id])
 
+  /* 🔐 DECODE STUDENT JWT (NO OTHER FILE TOUCH) */
+  const getStudentFromToken = () => {
+    try {
+      const token = localStorage.getItem("studentToken")
+      if (!token) return {}
+
+      const payload = JSON.parse(atob(token.split(".")[1]))
+      return {
+        name: payload.name || "",
+        email: payload.email || ""
+      }
+    } catch {
+      return {}
+    }
+  }
+
   /* 📝 REGISTER */
   const handleRegister = async () => {
     const token = localStorage.getItem("studentToken")
@@ -34,16 +50,20 @@ const EventModal = ({ event, onClose }) => {
       return
     }
 
+    const { name, email } = getStudentFromToken()
+
     try {
       // 1️⃣ Save registration
       await API.post(`/registrations/${event._id}`)
 
-      // 2️⃣ Send email ONCE
+      // 2️⃣ Send email
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          event: event.title, name: student.name, email:student.email
+          event: event.title,
+          name,
+          
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
@@ -51,7 +71,7 @@ const EventModal = ({ event, onClose }) => {
       setRegistered(true)
     } catch (err) {
       if (err.response?.status === 400) {
-        setRegistered(true) // already registered
+        setRegistered(true)
       } else {
         alert("Registration failed")
       }
