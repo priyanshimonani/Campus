@@ -50,7 +50,7 @@ const StudentLogin = () => {
           <label>Email</label>
           <input
             type='text'
-            placeholder='Username'
+            placeholder='Email'
             className='container'
             value={email}
             onChange={e => setEmail(e.target.value)}
@@ -74,7 +74,7 @@ const StudentLogin = () => {
           </button>
 
           <label>
-            Dont have an account, click <a href='/signup'>here</a>
+            Dont have an account? Click <a href='/signup'><u>here</u></a>
           </label>
         </form>
       </div>

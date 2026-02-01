@@ -3,6 +3,7 @@ import EventCard from "../components/EventCard"
 import EventModal from '../components/EventModal'
 import API from "../api"
 
+
 const Events = () => {
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [events, setEvents] = useState([])
@@ -13,7 +14,7 @@ const Events = () => {
   const [toDate, setToDate] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
 
-  // 🔹 NEW: sort state
+  //  NEW: sort state
   const [sortOrder, setSortOrder] = useState("newest")
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Events = () => {
     ...new Set(events.map(event => event.committeeId))
   ]
 
-  /* 🔍 FILTER */
+  /*  FILTER */
   const filteredEvents = events.filter(event => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -67,7 +68,7 @@ const Events = () => {
     )
   })
 
-  /* 🔃 SORT */
+  /* SORT */
   const sortedEvents = [...filteredEvents].sort((a, b) => {
     const dateA = new Date(a.date)
     const dateB = new Date(b.date)
@@ -87,7 +88,6 @@ const Events = () => {
 
   return (
     <div className="max-w-8xl mx-auto p-14 pt-40">
-
       <div className='flex justify-center split-text-container'>
         <h1 className="title1 mb-4 text-part left mr-2"> All Campus Events </h1>
         <h1 className="title1 mb-4 text-part right text-white!"> One Page</h1>
@@ -142,9 +142,7 @@ const Events = () => {
           <option value="newest">Date ↓ (Newest)</option>
           <option value="oldest">Date ↑ (Oldest)</option>
         </select>
-
-        {/* Date Range */}
-        
+       
         <label className=' text-emerald-600'>From:</label>
         <input
           type="date"
@@ -161,7 +159,7 @@ const Events = () => {
         />
       </div>
 
-      {/* 🏷 TAGS */}
+      {/* TAGS */}
       {allTags.length > 0 && (
         <div className="flex flex-wrap justify-center gap-2 mb-6">
           {allTags.map(tag => (
@@ -179,7 +177,7 @@ const Events = () => {
         </div>
       )}
 
-      {/* 📦 EVENTS */}
+      {/* EVENTS */}
       <div className="grid md:grid-cols-4 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {sortedEvents.map(event => (
           <EventCard

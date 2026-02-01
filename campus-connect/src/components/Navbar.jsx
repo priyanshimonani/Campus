@@ -47,7 +47,7 @@ const Navbar = () => {
           {/* Links */}
           <div className="flex gap-6 text-teal-500 font-medium">
             <a className="hover:text-emerald-500 transition" href="/">Home</a>
-            <a className="hover:text-emerald-500 transition" href="/about">About</a>
+            
           </div>
 
           {/* Admin (UNCHANGED) */}

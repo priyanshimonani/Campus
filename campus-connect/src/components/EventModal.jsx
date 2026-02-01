@@ -81,12 +81,12 @@ const EventModal = ({ event, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="container rounded-lg w-full max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black">
+      <div className="container rounded-lg w-200 max-w-lg shadow-xl flex flex-col max-h-[90vh] text-black">
 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="line-clamp-1 title1">{event.title}</h2>
-          <button onClick={onClose} className="text-2xl px-2 title1">
+          <button onClick={onClose} className="text-2xl px-2 title1 cursor-pointer">
             &times;
           </button>
         </div>
@@ -109,15 +109,7 @@ const EventModal = ({ event, onClose }) => {
             <p className="leading-relaxed">{event.description}</p>
           </div>
 
-          <div className="p-4 rounded-lg border">
-            <h3 className="font-semibold mb-3">Register Now</h3>
-
-            {registered && (
-              <p className="text-green-400 font-semibold text-center">
-                ✅ Registered
-              </p>
-            )}
-          </div>
+          
         </div>
 
         {/* Footer */}
