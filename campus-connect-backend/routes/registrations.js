@@ -46,4 +46,31 @@ router.get("/:eventId", verifyToken, async (req, res) => {
   }
 })
 
+// 🔒 COMMITTEE — GET REGISTERED STUDENTS FOR EVENT
+router.get("/event/:eventId", verifyToken, async (req, res) => {
+  try {
+    // only committees can view registrations
+    if (req.user.role !== "committee") {
+      return res.status(403).json({ message: "Access denied" })
+    }
+
+    const registrations = await Registration.find({
+      eventId: req.params.eventId
+    }).populate("studentId", "name email")
+
+    const result = registrations.map(r => ({
+      _id: r._id,
+      name: r.studentId?.name,
+      email: r.studentId?.email,
+      registeredAt: r.createdAt
+    }))
+
+    res.json(result)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: "Failed to fetch registrations" })
+  }
+})
+
+
 export default router

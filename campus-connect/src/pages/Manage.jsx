@@ -16,8 +16,11 @@ const Manage = () => {
     tags: []
   })
 
-  const [tagInput, setTagInput] = useState("") // ✅ NEW
+  const [tagInput, setTagInput] = useState("")
   const [isCompleted, setIsCompleted] = useState(false)
+
+  /* 🔹 NEW: registered students */
+  const [registrations, setRegistrations] = useState([])
 
   // Load event if editing
   useEffect(() => {
@@ -35,14 +38,30 @@ const Manage = () => {
             tags: event.tags || []
           })
 
-          setTagInput((event.tags || []).join(', ')) // ✅ NEW
+          setTagInput((event.tags || []).join(', '))
           setIsCompleted(event.isCompleted || false)
         }
       })
     }
   }, [id])
 
-  // Handle image upload
+  /* 🔹 NEW: fetch registered students */
+  useEffect(() => {
+  if (id) {
+    API.get(`/registrations/event/${id}`)
+      .then(res => {
+        // ✅ SAFETY: ensure array
+        const data = Array.isArray(res.data)
+          ? res.data
+          : res.data.registrations || []
+
+        setRegistrations(data)
+      })
+      .catch(() => setRegistrations([]))
+  }
+}, [id])
+
+
   const handleImageUpload = (file) => {
     if (!file) return
     const reader = new FileReader()
@@ -79,7 +98,7 @@ const Manage = () => {
   }
 
   return (
-    <div className='flex justify-center px-10 min-h-screen '>
+    <div className='flex justify-center px-10 min-h-screen'>
       <button
         className='container w-1 absolute top-6 left-3 rounded-full text-2xl hover:shadow-emerald-500'
         onClick={() => navigate('/dashboard')}
@@ -88,7 +107,7 @@ const Manage = () => {
       </button>
 
       <div className='flex flex-col items-center w-full max-w-xl p-1 rounded-lg mb-4'>
-        <h2 className="title1 mb-4 mt- mt-50">Add/Edit Event</h2>
+        <h2 className="title1 mb-4 mt-50">Add/Edit Event</h2>
 
         <input
           placeholder='Add Title'
@@ -131,7 +150,6 @@ const Manage = () => {
           onChange={e => setForm({ ...form, venue: e.target.value })}
         />
 
-        {/* ✅ TAG INPUT */}
         <input
           type="text"
           placeholder="Add tags (comma separated)"
@@ -142,18 +160,15 @@ const Manage = () => {
             setTagInput(value)
             setForm({
               ...form,
-              tags: value
-                .split(',')
-                .map(tag => tag.trim())
-                .filter(Boolean)
+              tags: value.split(',').map(t => t.trim()).filter(Boolean)
             })
           }}
         />
 
         {/* IMAGE UPLOAD */}
         <div className="flex flex-col items-center justify-center mt-3">
-          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer neoncontainer transition-colors p-5">
-            <div className="flex flex-col items-center justify-center pt-5 pb-6 title1">
+          <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer neoncontainer p-5">
+            <div className="flex flex-col items-center justify-center title1">
               <p className="text-sm font-semibold">Click to upload image</p>
               <p className="text-xs">PNG, JPG or GIF</p>
             </div>
@@ -167,26 +182,48 @@ const Manage = () => {
           </label>
         </div>
 
+        {/* 🔹 REGISTERED STUDENTS LIST */}
+        {id && (
+          <div className="w-full mt-8 border bordre-emerald-400 p-4">
+            <h3 className="title1 text-sm mb-3">
+              Registered Students 
+            </h3>
+
+            {registrations.length === 0 ? (
+              <p className="text-sm text-gray-400">No registrations yet</p>
+            ) : (
+              <ul className="space-y-2">
+                {registrations.map((r, idx) => (
+                  <li
+                    key={idx}
+                    className="flex justify-between text-sm text-emerald-400"
+                  >
+                    <span>{r.name}</span>
+                    <span className="text-gray-400">{r.email}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+
         <div className='grid grid-cols-2 gap-2 w-full mt-10'>
           <button
-            className='bg-green-300 text-green-900 rounded-md py-3 hover:bg-green-400 transition'
+            className='bg-green-300 text-green-900 rounded-md py-3 hover:bg-green-400'
             onClick={markCompleted}
           >
             {isCompleted ? 'Unmark Completed' : 'Mark Completed'}
           </button>
 
           <button
-            className='bg-red-400 text-red-800 rounded-md py-3 hover:bg-red-500 transition'
+            className='bg-red-400 text-red-800 rounded-md py-3 hover:bg-red-500'
             onClick={deleteEvent}
           >
             Delete Event
           </button>
         </div>
 
-        <button
-          className='admin-btn mt-6'
-          onClick={handleSubmit}
-        >
+        <button className='admin-btn mt-6' onClick={handleSubmit}>
           Save Event
         </button>
       </div>

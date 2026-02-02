@@ -23,4 +23,6 @@ registrationSchema.index(
   { unique: true }
 );
 
+
+
 export default mongoose.model("Registration", registrationSchema);
